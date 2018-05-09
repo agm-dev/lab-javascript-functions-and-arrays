@@ -74,6 +74,7 @@ var wordsCount = [
   'disobedience',
   'matter'
 ];
+
 // Bonus Quest
 
 var matrix = [
@@ -98,3 +99,68 @@ var matrix = [
   [20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54],
   [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ];
+
+
+
+// ES6 one shot solutions!
+
+// Find the maximum
+const maxOfTwoNumbers = (a, b) => a > b ? a : b;
+
+// Finding Longest Word
+const findLongestWord = words => words.length ? words.reduce((result, word) => word.length > result.length ? word : result, '') : undefined;
+
+// Calculating a Sum
+const sumArray = numbers => numbers.reduce((total, number) => total + number, 0);
+
+// Calculate the Average
+const averageNumbers = numbers => numbers.length ? sumArray(numbers) / numbers.length : undefined;
+
+const averageWordLength = words => averageNumbers(words.map(word => word.length));
+
+// Unique Arrays
+const uniquifyArray = words => !words.length ? undefined : words.reduce((uniques, word) => uniques.includes(word) ? uniques : [...uniques, word], []);
+
+// Finding Elements
+const doesWordExist = (words, target) => !words.length ? false : words.some(word => word === target);
+
+// Counting Repetion
+const howManyTimes = (words, target) => !words.length ? false : words.filter(word => word === target).length;
+
+// Bonus Quest, not ES6 one shot :(
+
+// returns an array with values to calculate the product:
+const getValues = (matrix, y, x) => {
+  // matrix: yx, position: p
+  /*
+    a
+  d p b
+    c
+  */
+  // between matrix limits:
+  y = y < matrix.length ? y : matrix.length -1;
+  y = y >= 0 ? y : 0;
+  x = x < matrix[0].length ? x : matrix[0].length -1;
+  x = x >= 0 ? x : 0;
+  // return value in that position or 1 (product oriented)
+  return [
+    y - 1 >= 0 ? matrix[y - 1][x] : 1,
+    x + 1 < matrix[0].length ? matrix[y][x + 1] : 1,
+    y + 1 < matrix.length ? matrix[y + 1][x] : 1,
+    x -1 >= 0 ? matrix[y][x -1] : 1
+  ];
+};
+
+const greatestProduct = matrix => {
+  let maxProduct = 0;
+  for (let y=0; y<matrix.length; y++) {
+    for (let x=0; x<matrix[y].length; x++) {
+      const values = getValues(matrix, y, x);
+      const total = values.reduce((result, value) => result * value, 1);
+      if (total > maxProduct) maxProduct = total;
+    }
+  }
+  return maxProduct;
+}
+
+
